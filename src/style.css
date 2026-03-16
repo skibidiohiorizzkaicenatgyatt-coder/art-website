@@ -35,7 +35,7 @@ nav {
   font-size: 1.5rem; font-weight: 600; letter-spacing: 0.04em;
   color: var(--blue-deep);
 }
-.logo span { color: var(--gold); }
+.logo span { color: var(--gold); font-weight: 300; }
 .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 .nav-links a {
   font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
@@ -214,13 +214,21 @@ h2 {
 .art-card {
   position: relative; overflow: hidden; cursor: pointer;
 }
-.art-card:first-child { grid-column: span 2; }
 .art-card-inner {
-  width: 100%; aspect-ratio: 4/3;
+  width: 100%; height: 280px;
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
-.art-card:first-child .art-card-inner { aspect-ratio: 16/7; }
+.art-card-empty { cursor: default; }
+.art-empty-slot {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px;
+  background: var(--off-white);
+  border: 0.5px dashed rgba(10,22,40,0.15);
+  color: rgba(10,22,40,0.2);
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+}
 .art-overlay {
   position: absolute; inset: 0;
   background: rgba(10,22,40,0);
@@ -343,7 +351,7 @@ footer {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.1rem; color: var(--blue-deep); font-weight: 600;
 }
-.footer-logo span { color: var(--gold); }
+.footer-logo span { color: var(--gold); font-weight: 300; }
 
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp {
