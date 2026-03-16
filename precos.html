@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preços — Sketch Nerd</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/style.css">
+  <link rel="icon" type="image/png" href="public/logo.png">
+  <style>
+    /* ─── PRICING PAGE ─── */
+    .pricing-hero {
+      padding: 10rem 3rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-hero::before {
+      content: '';
+      position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+      width: 60vw; height: 80vh;
+      background: radial-gradient(ellipse at center, rgba(43,108,176,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .pricing-hero .section-eyebrow {
+      justify-content: center;
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .pricing-hero .section-eyebrow::before,
+    .pricing-hero .section-eyebrow::after {
+      content: ''; display: block; width: 32px; height: 0.5px; background: var(--gold);
+    }
+    .pricing-hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-bottom: 1rem;
+    }
+    .pricing-hero p {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 420px; margin: 0 auto; line-height: 1.7;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      padding: 3rem 3rem 6rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      border: 0.5px solid rgba(10,22,40,0.1);
+      padding: 2.2rem 2rem;
+      background: var(--off-white);
+      display: flex; flex-direction: column;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+    }
+    .pricing-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+    }
+    .pricing-card.featured {
+      background: var(--blue-deep);
+      border-color: var(--blue-deep);
+    }
+    .pricing-card.featured:hover {
+      border-color: var(--gold);
+    }
+    .featured-badge {
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--blue-deep);
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 500;
+      padding: 0.3rem 1rem;
+    }
+
+    .card-category {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--blue-deep); margin-bottom: 0.5rem; line-height: 1.2;
+    }
+    .pricing-card.featured .card-title { color: var(--off-white); }
+
+    .card-desc {
+      font-size: 0.82rem; color: var(--text-muted);
+      line-height: 1.6; margin-bottom: 1.8rem;
+      flex-grow: 1;
+    }
+    .pricing-card.featured .card-desc { color: rgba(247,245,240,0.55); }
+
+    .card-divider {
+      height: 0.5px; background: rgba(10,22,40,0.08);
+      margin-bottom: 1.8rem;
+    }
+    .pricing-card.featured .card-divider { background: rgba(247,245,240,0.1); }
+
+    .card-price {
+      display: flex; align-items: baseline; gap: 0.3rem;
+      margin-bottom: 1.8rem;
+    }
+    .price-currency {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 300;
+      color: var(--text-muted);
+    }
+    .pricing-card.featured .price-currency { color: rgba(247,245,240,0.5); }
+    .price-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; line-height: 1;
+      color: var(--blue-deep);
+    }
+    .pricing-card.featured .price-value { color: var(--off-white); }
+    .price-note {
+      font-size: 0.72rem; color: var(--text-muted);
+      letter-spacing: 0.05em; align-self: flex-end; padding-bottom: 4px;
+    }
+    .pricing-card.featured .price-note { color: rgba(247,245,240,0.4); }
+
+    .card-features {
+      list-style: none; display: flex; flex-direction: column; gap: 0.7rem;
+      margin-bottom: 2rem;
+    }
+    .card-features li {
+      font-size: 0.82rem; color: var(--text-muted);
+      display: flex; align-items: flex-start; gap: 0.6rem; line-height: 1.5;
+    }
+    .pricing-card.featured .card-features li { color: rgba(247,245,240,0.6); }
+    .card-features li::before {
+      content: '—'; color: var(--gold);
+      font-size: 0.7rem; flex-shrink: 0; margin-top: 1px;
+    }
+
+    .card-cta {
+      padding: 0.85rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; text-align: center; text-decoration: none;
+      display: block;
+      border: 0.5px solid rgba(10,22,40,0.25);
+      color: var(--blue-deep);
+      background: transparent;
+      transition: all 0.2s;
+    }
+    .card-cta:hover {
+      border-color: var(--gold); color: var(--gold);
+    }
+    .pricing-card.featured .card-cta {
+      background: var(--gold); border-color: var(--gold);
+      color: var(--blue-deep);
+    }
+    .pricing-card.featured .card-cta:hover {
+      background: transparent; color: var(--gold);
+    }
+
+    .pricing-note {
+      text-align: center;
+      padding: 0 3rem 6rem;
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.7;
+    }
+    .pricing-note a { color: var(--gold); text-decoration: none; }
+    .pricing-note a:hover { text-decoration: underline; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+      margin: 0 3rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+    .back-link::before { content: '←'; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr 1fr; padding: 2rem 1.5rem 4rem; }
+      .pricing-hero { padding: 8rem 1.5rem 3rem; }
+      .back-link { margin: 0 1.5rem; }
+      .pricing-note { padding: 0 1.5rem 4rem; }
+    }
+    @media (max-width: 560px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="logo"><img src="public/logo.png" alt="Sketch Nerd" style="height:36px;width:auto;"></div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Início</a></li>
+    <li><a href="index.html#portfolio" onclick="closeMenu()">Portfólio</a></li>
+    <li><a href="index.html#sobre" onclick="closeMenu()">Sobre</a></li>
+    <li><a href="index.html#contato" onclick="closeMenu()">Contato</a></li>
+  </ul>
+</nav>
+
+<div class="pricing-hero">
+  <div class="section-eyebrow">Tabela de preços</div>
+  <h1>Escolha sua<br><em>encomenda.</em></h1>
+  <p>Cada serviço é feito com cuidado e atenção ao detalhe. Preços a partir de encomenda única.</p>
+</div>
+
+<a class="back-link" href="index.html">Voltar ao início</a>
+
+<div class="pricing-grid">
+
+  <!-- Card 1 -->
+  <div class="pricing-card">
+    <div class="card-category">Personagem</div>
+    <div class="card-title">Busto Simples</div>
+    <div class="card-desc">Retrato do personagem do pescoço para cima, com fundo neutro e linha limpa.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem</li>
+      <li>Traço finalizado</li>
+      <li>Entrega em até X dias</li>
+      <li>1 revisão inclusa</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="pricing-card">
+    <div class="card-category">Personagem</div>
+    <div class="card-title">Meio Corpo</div>
+    <div class="card-desc">Ilustração da cintura para cima com expressão e pose definidas pelo cliente.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem</li>
+      <li>Traço + sombreado</li>
+      <li>Entrega em até X dias</li>
+      <li>2 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 3 — Featured -->
+  <div class="pricing-card featured">
+    <div class="featured-badge">Mais pedido</div>
+    <div class="card-category">Personagem</div>
+    <div class="card-title">Corpo Inteiro</div>
+    <div class="card-desc">Ilustração completa com pose dinâmica, roupa detalhada e fundo simples.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem</li>
+      <li>Traço + cor + sombreado</li>
+      <li>Entrega em até X dias</li>
+      <li>3 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="pricing-card">
+    <div class="card-category">Fanart</div>
+    <div class="card-title">Fanart Simples</div>
+    <div class="card-desc">Personagem de anime ou jogo em estilo sketch com traço expressivo.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem existente</li>
+      <li>Traço finalizado</li>
+      <li>Entrega em até X dias</li>
+      <li>1 revisão inclusa</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="pricing-card">
+    <div class="card-category">Fanart</div>
+    <div class="card-title">Fanart Colorida</div>
+    <div class="card-desc">Fanart com colorização completa e fundo temático baseado na obra original.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem existente</li>
+      <li>Cor + fundo incluso</li>
+      <li>Entrega em até X dias</li>
+      <li>2 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="pricing-card">
+    <div class="card-category">Estampa</div>
+    <div class="card-title">Arte para Camiseta</div>
+    <div class="card-desc">Ilustração pronta para impressão em camisetas, entregue em PNG com fundo transparente.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>Arquivo PNG + vetor</li>
+      <li>Fundo transparente</li>
+      <li>Entrega em até X dias</li>
+      <li>2 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 7 -->
+  <div class="pricing-card">
+    <div class="card-category">Estampa</div>
+    <div class="card-title">Pôster A3</div>
+    <div class="card-desc">Ilustração em alta resolução formatada para impressão em pôster A3.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>Arquivo 300dpi</li>
+      <li>Fundo incluso</li>
+      <li>Entrega em até X dias</li>
+      <li>3 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 8 -->
+  <div class="pricing-card">
+    <div class="card-category">Casal / Dupla</div>
+    <div class="card-title">Retrato de Casal</div>
+    <div class="card-desc">Dois personagens na mesma cena, com composição equilibrada e fundo personalizado.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>2 personagens</li>
+      <li>Cor + fundo incluso</li>
+      <li>Entrega em até X dias</li>
+      <li>3 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 9 -->
+  <div class="pricing-card">
+    <div class="card-category">Chibi</div>
+    <div class="card-title">Personagem Chibi</div>
+    <div class="card-desc">Versão fofa e estilizada do seu personagem no estilo chibi colorido.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem</li>
+      <li>Cor + expressão animada</li>
+      <li>Entrega em até X dias</li>
+      <li>2 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 10 -->
+  <div class="pricing-card">
+    <div class="card-category">Personalizado</div>
+    <div class="card-title">Projeto Especial</div>
+    <div class="card-desc">Para projetos fora do padrão: cenários complexos, múltiplos personagens ou uso comercial.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency"></span>
+      <span class="price-value" style="font-size:2rem;">Sob consulta</span>
+    </div>
+    <ul class="card-features">
+      <li>Orçamento personalizado</li>
+      <li>Prazo combinado</li>
+      <li>Uso comercial disponível</li>
+      <li>Revisões a combinar</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Falar com o artista</a>
+  </div>
+
+  <!-- Card 11 -->
+  <div class="pricing-card">
+    <div class="card-category">Cena / Fundo</div>
+    <div class="card-title">Ilustração com Cenário</div>
+    <div class="card-desc">Personagem inserido em um cenário detalhado, com perspectiva e ambientação completa.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>1 personagem + cenário</li>
+      <li>Cor + iluminação</li>
+      <li>Entrega em até X dias</li>
+      <li>3 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+  <!-- Card 12 -->
+  <div class="pricing-card">
+    <div class="card-category">Capa / Banner</div>
+    <div class="card-title">Arte para Redes Sociais</div>
+    <div class="card-desc">Ilustração formatada para capa de perfil, banner ou thumbnail com identidade visual definida.</div>
+    <div class="card-divider"></div>
+    <div class="card-price">
+      <span class="price-currency">R$</span>
+      <span class="price-value">XX</span>
+      <span class="price-note">,00</span>
+    </div>
+    <ul class="card-features">
+      <li>Formato à escolha</li>
+      <li>Arte finalizada + cor</li>
+      <li>Entrega em até X dias</li>
+      <li>2 revisões inclusas</li>
+    </ul>
+    <a class="card-cta" href="index.html#contato">Encomendar</a>
+  </div>
+
+</div>
+
+<p class="pricing-note">
+  Dúvidas sobre qual serviço escolher? <a href="index.html#contato">Entre em contato</a> e o Iago te orienta.<br>
+  Pagamento via Pix ou transferência. 50% de entrada ao confirmar a encomenda.
+</p>
+
+<footer>
+  <span class="footer-copy">© 2025 Sketch Nerd. Todos os direitos reservados.</span>
+  <div class="footer-logo">Sketch <span>Nerd</span></div>
+</footer>
+
+<script src="src/javascript/main.js"></script>
+</body>
+</html>
